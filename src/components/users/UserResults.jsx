@@ -1,23 +1,13 @@
-import { useState,useEffect } from "react"
-import axios from 'axios'
+import { useEffect,useContext } from "react"
 import UserItem from "./UserItem";
+import GithubContext from "../../context/github/GithubContext";
 
 function UserResults() {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const {users, loading, fetchUsers} = useContext(GithubContext);
+
     useEffect(() => {
         fetchUsers()
     }, [])
-
-    const fetchUsers = async()=> {
-        const res = await axios.get("https://api.github.com/users", {
-            headers:{
-                Authorization: `token ${process.env.REACT_APP_GITHUB_API_TOKEN}`
-            }
-        })
-        setUsers(res.data);
-        setLoading(false);
-    }
 
     if(!loading){
         return (
