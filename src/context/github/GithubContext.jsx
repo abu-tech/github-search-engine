@@ -1,28 +1,48 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 import axios from 'axios'
+import githubReducer from "./GithubReducers";
 
 const GithubContext = createContext();
 
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_API_TOKEN;
 
 export const GithubProvider = ({children}) => {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+const initialState = {
+    users:[],
+    loading:false
+}
 
-    const fetchUsers = async()=> {
-        const res = await axios.get("https://api.github.com/users", {
+const [state, dispatch] = useReducer(githubReducer, initialState);
+
+const setLoading = ()=> {
+    dispatch({
+        type: 'SET_LOADING',
+    })
+}
+
+    const SearchUsers = async(text)=> {
+        setLoading();
+
+        const params = new URLSearchParams({
+            q:text
+        })
+
+        const res = await axios.get(`https://api.github.com/search/users?q=sam`, {
             headers:{
                 Authorization: `token ${GITHUB_TOKEN}`
             }
         })
-        setUsers(res.data);
-        setLoading(false);
+        console.log(res.items)
+        dispatch({
+            type: 'GET_USERS',
+            payload: res.items
+        })
     }
 
     return <GithubContext.Provider value={{
-        users,
-        loading,
-        fetchUsers,
+        users: state.users,
+        loading: state.loading,
+        SearchUsers,
     }}>
     {children}
     </GithubContext.Provider>
