@@ -16,7 +16,7 @@ function UserResults() {
     else{
         return(
             <div className="flex justify-center">
-                <button className="btn loading">loading</button>
+                <button className="btn loading shadow-2xl">loading</button>
             </div>
         )
     }
