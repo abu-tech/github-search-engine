@@ -1,8 +1,12 @@
-
+import {motion} from 'framer-motion'
 
 function Notfound() {
   return (
-	<div className="bg-black text-white">
+	<motion.div className="bg-black text-white"
+	animate={{width: '100%'}}
+    initial={{width: 0}}
+    exit={{x: window.innerWidth}}
+	>
 		<div className="flex h-screen">
 			<div className="m-auto text-center">
 				<div>
@@ -189,7 +193,7 @@ function Notfound() {
 					Back To Home</a>
 			</div>
 		</div>
-	</div>
+	</motion.div>
   )
 }
 

@@ -30,10 +30,15 @@ const setLoading = ()=> {
                 Authorization: `token ${GITHUB_TOKEN}`
             }
         })
-            dispatch({
-                type: 'GET_USERS',
-                payload: res.data.items
-            })
+
+        if(res.data.items.length === 0){
+            window.location = '/notfound';
+        }
+
+        dispatch({
+            type: 'GET_USERS',
+            payload: res.data.items
+        })
     }
 
     const getUser = async(login)=> {

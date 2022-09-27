@@ -3,6 +3,7 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa'
 import GithubContext from '../../context/github/GithubContext';
 import {useParams,Link} from 'react-router-dom';
 import RepoList from '../repos/RepoList';
+import {motion} from 'framer-motion'
 
 function UserProfile() {
   const {user, getUser, loading, repos, getRepos} = useContext(GithubContext);
@@ -43,7 +44,10 @@ function UserProfile() {
   }
 
   return (
-      <>
+      <motion.div
+      animate={{width: '100%'}}
+      initial={{width: 0}}
+      >
         <div className='w-full mx-auto lg:w-10/12'>
           <div className='mb-4'>
             <Link to='/' className='btn btn-ghost font-mono'>
@@ -166,7 +170,7 @@ function UserProfile() {
           </div>
           <RepoList repos={repos}/>
         </div>
-      </>
+      </motion.div>
     )
 }
 
